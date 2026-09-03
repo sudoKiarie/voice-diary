@@ -1,32 +1,14 @@
+import { useMemo } from "react";
 import { motion } from "framer-motion";
-import { Mic } from "lucide-react";
-
-const INSPIRATIONS = [
-  "Every thought you capture becomes part of your story.",
-  "Your mind deserves a place to rest.",
-  "The smallest moments become your biggest memories.",
-  "Speak freely — your second brain is listening.",
-  "What you feel today is tomorrow's treasure.",
-];
 
 function getGreeting(): string {
-  const h = new Date().getHours();
-  if (h < 12) return "Good morning.";
-  if (h < 17) return "Good afternoon.";
-  return "Good evening.";
+  const hour = new Date().getHours();
+  if (hour < 12) return "Good morning";
+  if (hour < 17) return "Good afternoon";
+  return "Good evening";
 }
 
-function getPrompt(): string {
-  const prompts = [
-    "What happened today?",
-    "What's on your mind?",
-    "What would you like to remember?",
-    "What are you grateful for?",
-  ];
-  return prompts[Math.floor(Math.random() * prompts.length)];
-}
-
-function formatDate(): string {
+function formatToday(): string {
   return new Intl.DateTimeFormat("en-US", {
     weekday: "long",
     month: "long",
@@ -34,77 +16,31 @@ function formatDate(): string {
   }).format(new Date());
 }
 
-interface GreetingProps {
-  onStartRecording: () => void;
-}
-
-export default function Greeting({ onStartRecording }: GreetingProps) {
-  const inspiration =
-    INSPIRATIONS[Math.floor(Math.random() * INSPIRATIONS.length)];
-  const prompt = getPrompt();
+export function Greeting() {
+  const greeting = useMemo(getGreeting, []);
+  const today = useMemo(formatToday, []);
 
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
+    <motion.header
+      initial={{ opacity: 0, y: -12 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
-      className="flex flex-col items-center justify-center min-h-[70dvh] px-6 text-center"
+      transition={{ duration: 0.5, ease: "easeOut" }}
+      className="mb-8"
     >
-      {/* Greeting */}
-      <motion.h1
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.2, duration: 0.6 }}
-        className="journal-heading text-5xl sm:text-6xl md:text-7xl text-ink mb-3"
-        style={{ fontStyle: "italic" }}
-      >
-        {getGreeting()}
-      </motion.h1>
-
-      {/* Date */}
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.4, duration: 0.6 }}
-        className="font-sans text-sm text-ink-muted tracking-wide uppercase mb-6"
-      >
-        {formatDate()}
-      </motion.p>
-
-      {/* Prompt */}
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.6, duration: 0.6 }}
-        className="font-sans text-lg text-ink-muted mb-10 max-w-md"
-      >
-        {prompt}
-      </motion.p>
-
-      {/* Inspiration line */}
-      <motion.p
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ delay: 0.8, duration: 0.6 }}
-        className="font-sans text-sm text-ink-muted/60 italic mb-16 max-w-sm"
-      >
-        "{inspiration}"
-      </motion.p>
-
-      {/* Record CTA */}
-      <motion.button
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 1, duration: 0.4, ease: "easeOut" }}
-        whileHover={{ scale: 1.05 }}
-        whileTap={{ scale: 0.95 }}
-        onClick={onStartRecording}
-        className="record-btn flex items-center gap-3 rounded-full px-8 py-4 text-base font-medium shadow-lg"
-        aria-label="Start recording"
-      >
-        <Mic className="w-5 h-5" />
-        Record a thought
-      </motion.button>
-    </motion.div>
+      <h1 className="font-heading text-4xl sm:text-5xl text-text-primary">
+        {greeting}
+        <span
+          className="inline-block ml-2 animate-[wave_1.5s_ease-in-out_infinite]"
+          aria-hidden="true"
+          style={{
+            transformOrigin: "70% 70%",
+            animationName: "wave",
+          }}
+        >
+          👋
+        </span>
+      </h1>
+      <p className="mt-2 text-lg text-text-muted font-sans">{today}</p>
+    </motion.header>
   );
 }
