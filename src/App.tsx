@@ -8,6 +8,7 @@ import { EntryDetail } from "./components/EntryDetail";
 import { Greeting } from "./components/Greeting";
 import { SearchBar } from "./components/SearchBar";
 import { ReflectionStats } from "./components/ReflectionStats";
+import { JournalingPrompt } from "./components/JournalingPrompt";
 import { searchEntries } from "./lib/entries";
 import type { DiaryEntry } from "./types";
 
@@ -66,6 +67,7 @@ export default function App() {
           className="mb-12 flex flex-col items-center"
         >
           <RecordingOrb onTranscriptionComplete={handleTranscriptionComplete} />
+          <JournalingPrompt />
         </motion.section>
 
         {/* Journal Feed */}
