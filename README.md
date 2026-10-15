@@ -1,6 +1,6 @@
 # Voice Diary
 
-A warm, tactile voice journaling web app. Speak your thoughts, watch your words appear in
+An amazing journaling web app. Speak your thoughts, watch your words appear in
 real time, and let AI turn each entry into meaningful reflections — mood, topics, a title,
 people mentioned, action items, and key ideas. Everything stays in your browser.
 
